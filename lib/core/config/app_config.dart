@@ -4,7 +4,7 @@ import 'app_constants.dart';
 
 @injectable
 class AppConfig {
-  String get baseUrl => githubApiBaseUrlKey;
+  String get baseUrl => githubApiUrl;
 
   Map<String, String> get headers => {};
 }

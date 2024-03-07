@@ -13,6 +13,5 @@ class ReposRoute extends GoRouteData {
   const ReposRoute();
 
   @override
-  Widget build(BuildContext context, GoRouterState state) =>
-      const ReposScreen();
+  Widget build(BuildContext context, GoRouterState state) => ReposScreen();
 }

@@ -33,15 +33,16 @@ dependencies:
 
   #VIEW
   cupertino_icons: ^1.0.2
+  loader_overlay: ^4.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  build_runner: ^2.4.8
   retrofit_generator: ^8.1.0
   injectable_generator: ^2.4.1
-  flutter_lints: ^2.0.0
+  flutter_lints: ^3.0.1
   go_router_builder: ^2.4.1
+  build_runner: ^2.4.8
 
 flutter:
   uses-material-design: true
