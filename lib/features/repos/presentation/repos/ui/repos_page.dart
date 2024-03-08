@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
-import '../../../../core/di/injection_container.dart';
-import '../../../../core/utils/debouncer.dart';
-import '../../domain/models/repo_list_item_model.dart';
-import '../../domain/models/repos_list_model.dart';
-import 'cubit/repos_cubit.dart';
+import '../../../../../core/di/injection_container.dart';
+import '../../../../../core/utils/debouncer.dart';
+import '../cubit/repos_cubit.dart';
+import 'repos_body.dart';
 
-class ReposScreen extends StatelessWidget {
-  ReposScreen({super.key});
+class ReposPage extends StatelessWidget {
+  ReposPage({super.key});
 
   final _debouncer = Debouncer();
 
@@ -17,7 +16,7 @@ class ReposScreen extends StatelessWidget {
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          title: const Text('Repos screen'),
+          title: const Text('Search for repos!'),
         ),
         body: Center(
           child: BlocProvider(
@@ -47,7 +46,7 @@ class ReposScreen extends StatelessWidget {
                           ),
                           builder: (context, state) => Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: _buildReposList(state.repos),
+                            child: ReposBody(state.repos),
                           ),
                         ),
                       ),
@@ -58,24 +57,5 @@ class ReposScreen extends StatelessWidget {
             ),
           ),
         ),
-      );
-
-  Widget _buildReposList(ReposListModel? repos) =>
-      repos != null && repos.items.isNotEmpty
-          ? ListView.separated(
-              padding: const EdgeInsets.only(top: 10),
-              itemCount: repos.items.length,
-              itemBuilder: (context, index) =>
-                  _buildRepoItem(repos.items[index]),
-              separatorBuilder: (context, index) => const SizedBox(height: 10),
-            )
-          : const Text('No repos');
-
-  Widget _buildRepoItem(RepoListItemModel repo) => Row(
-        children: [
-          Text(repo.id.toString()),
-          const SizedBox(width: 20),
-          Text(repo.name),
-        ],
       );
 }

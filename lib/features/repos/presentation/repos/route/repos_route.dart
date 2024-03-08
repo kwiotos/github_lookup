@@ -1,17 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../repos_screen.dart';
+import '../../repo_details/route/repo_details_route.dart';
+import '../ui/repos_page.dart';
 
 part 'repos_route.g.dart';
 
 @TypedGoRoute<ReposRoute>(
   path: '/',
-  routes: <TypedGoRoute<GoRouteData>>[],
+  routes: <TypedGoRoute<GoRouteData>>[
+    TypedGoRoute<RepoDetailsRoute>(
+      path: 'repo/:owner/:repo',
+      routes: <TypedGoRoute<GoRouteData>>[],
+    ),
+  ],
 )
 class ReposRoute extends GoRouteData {
   const ReposRoute();
 
   @override
-  Widget build(BuildContext context, GoRouterState state) => ReposScreen();
+  Widget build(BuildContext context, GoRouterState state) => ReposPage();
 }
