@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../../translations/translations.gl.dart';
 import '../../../domain/models/repo_list_item_model.dart';
 import '../../../domain/models/repos_list_model.dart';
 import '../../repo_details/route/repo_details_route.dart';
@@ -19,7 +21,7 @@ class ReposBody extends StatelessWidget {
               _buildRepoItem(context, repos!.items[index]),
           separatorBuilder: (context, index) => const SizedBox(height: 10),
         )
-      : const Text('No repos');
+      : Text(LocaleKeys.repos_empty.tr());
 
   Widget _buildRepoItem(BuildContext context, RepoListItemModel repo) =>
       InkWell(

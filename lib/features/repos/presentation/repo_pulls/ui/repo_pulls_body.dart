@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 
+import '../../../../../translations/translations.gl.dart';
 import '../../../domain/models/pull_model.dart';
 
 class RepoPullsBody extends StatelessWidget {
@@ -16,7 +18,7 @@ class RepoPullsBody extends StatelessWidget {
               _buildRepoItem(context, pulls[index]),
           separatorBuilder: (context, index) => const SizedBox(height: 10),
         )
-      : const Text('No pulls');
+      : Text(LocaleKeys.repo_pulls_empty.tr());
 
   Widget _buildRepoItem(BuildContext context, PullModel pull) => Row(
         children: [

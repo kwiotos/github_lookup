@@ -1,0 +1,18 @@
+{
+  "base": {
+    "error_message": "Sorry, something went wrong, try again later"
+  },
+  "repos": {
+    "title": "Repositories search",
+    "input_hint": "Search for repos",
+    "empty": "No repos found"
+  },
+  "repo_details": {
+    "title": "{} details",
+    "show_pulls": "Show pull requests"
+  },
+  "repo_pulls": {
+    "title": "{} pull requests",
+    "empty": "No pull requests"
+  }
+}

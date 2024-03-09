@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../../translations/translations.gl.dart';
 import '../../../domain/models/repo_details_model.dart';
 import '../../repo_pulls/route/repo_pulls_route.dart';
 import '../../repos/route/repos_route.dart';
@@ -20,7 +22,7 @@ class RepoDetailsBody extends StatelessWidget {
           InkWell(
             onTap: () =>
                 RepoPullsRoute(repo.owner.login, repo.name).go(context),
-            child: const Text('Show pull requests ->'),
+            child: Text(LocaleKeys.repo_details_show_pulls.tr()),
           ),
         ],
       );

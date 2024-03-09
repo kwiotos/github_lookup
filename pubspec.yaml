@@ -34,6 +34,7 @@ dependencies:
   #VIEW
   cupertino_icons: ^1.0.2
   loader_overlay: ^4.0.0
+  easy_localization: ^3.0.5
 
 dev_dependencies:
   flutter_test:
@@ -46,3 +47,5 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/translations/
