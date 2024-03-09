@@ -1,3 +1,4 @@
+import '../models/pull_model.dart';
 import '../models/repo_details_model.dart';
 import '../models/repos_list_model.dart';
 
@@ -9,7 +10,7 @@ abstract class ReposRepository {
     required String repo,
   });
 
-  Future<RepoDetailsModel> getRepoPRs({
+  Future<List<PullModel>> getRepoPulls({
     required String owner,
     required String repo,
   });

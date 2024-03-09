@@ -1,11 +1,11 @@
 import 'package:equatable/equatable.dart';
 
-import 'repo_owner_model.dart';
+import 'user_model.dart';
 
 class RepoDetailsModel extends Equatable {
   final int id;
   final String name;
-  final RepoOwnerModel owner;
+  final UserModel owner;
   final String? fullName;
   final String? description;
   final String? language;

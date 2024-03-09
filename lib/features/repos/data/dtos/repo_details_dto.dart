@@ -2,9 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import '../../domain/models/repo_details_model.dart';
-import '../../domain/models/repo_list_item_model.dart';
-import '../../domain/models/repos_list_model.dart';
-import 'repo_owner_dto.dart';
+import 'user_dto.dart';
 
 part 'repo_details_dto.g.dart';
 
@@ -12,7 +10,7 @@ part 'repo_details_dto.g.dart';
 class RepoDetailsDto extends Equatable {
   final int id;
   final String name;
-  final RepoOwnerDto owner;
+  final UserDto owner;
   @JsonKey(name: 'full_name')
   final String? fullName;
   final String? description;
@@ -38,8 +36,7 @@ class RepoDetailsDto extends Equatable {
   });
 
   @override
-  List<Object?> get props =>
-      [
+  List<Object?> get props => [
         id,
         name,
         owner,
@@ -55,8 +52,7 @@ class RepoDetailsDto extends Equatable {
   factory RepoDetailsDto.fromJson(Map<String, dynamic> json) =>
       _$RepoDetailsDtoFromJson(json);
 
-  RepoDetailsModel toModel() =>
-      RepoDetailsModel(
+  RepoDetailsModel toModel() => RepoDetailsModel(
         id: id,
         name: name,
         owner: owner.toModel(),

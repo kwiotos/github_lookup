@@ -1,7 +1,8 @@
 import 'package:dio/dio.dart';
-import 'package:github_lookup/core/config/app_config.dart';
-import 'package:github_lookup/core/config/app_constants.dart';
 import 'package:injectable/injectable.dart';
+
+import '../config/app_config.dart';
+import '../config/app_constants.dart';
 
 @module
 abstract class ApiModule {
@@ -10,7 +11,7 @@ abstract class ApiModule {
 
   @lazySingleton
   Dio dio(AppConfig config) {
-    Dio dio = Dio();
+    final Dio dio = Dio();
     dio.options.headers = config.headers;
     return dio;
   }

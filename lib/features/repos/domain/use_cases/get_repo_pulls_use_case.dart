@@ -1,17 +1,17 @@
 import 'package:injectable/injectable.dart';
 
-import '../models/repo_details_model.dart';
+import '../models/pull_model.dart';
 import '../repositories/repos_repository.dart';
 
 @injectable
-class GetRepoUseCase {
+class GetRepoPullsUseCase {
   final ReposRepository _repository;
 
-  GetRepoUseCase(this._repository);
+  GetRepoPullsUseCase(this._repository);
 
-  Future<RepoDetailsModel> call({
+  Future<List<PullModel>> call({
     required String owner,
     required String repo,
   }) =>
-      _repository.getRepo(owner: owner, repo: repo);
+      _repository.getRepoPulls(owner: owner, repo: repo);
 }

@@ -3,9 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../domain/models/repo_details_model.dart';
-import '../../../domain/models/repos_list_model.dart';
 import '../../../domain/use_cases/get_repo_use_case.dart';
-import '../../../domain/use_cases/get_repos_use_case.dart';
 
 part 'repo_details_cubit.freezed.dart';
 

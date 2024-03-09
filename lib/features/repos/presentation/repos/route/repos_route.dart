@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../repo_details/route/repo_details_route.dart';
+import '../../repo_pulls/route/repo_pulls_route.dart';
 import '../ui/repos_page.dart';
 
 part 'repos_route.g.dart';
@@ -11,7 +12,11 @@ part 'repos_route.g.dart';
   routes: <TypedGoRoute<GoRouteData>>[
     TypedGoRoute<RepoDetailsRoute>(
       path: 'repo/:owner/:repo',
-      routes: <TypedGoRoute<GoRouteData>>[],
+      routes: <TypedGoRoute<GoRouteData>>[
+        TypedGoRoute<RepoPullsRoute>(
+          path: 'pulls',
+        ),
+      ],
     ),
   ],
 )
