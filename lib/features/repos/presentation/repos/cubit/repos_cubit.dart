@@ -13,13 +13,13 @@ part 'repos_state.dart';
 class ReposCubit extends Cubit<ReposState> {
   final GetReposUseCase _getReposUseCase;
 
-  ReposCubit(this._getReposUseCase) : super(const ReposState.loading());
+  ReposCubit(this._getReposUseCase) : super(const ReposState.initial());
 
   Future<void> getRepos({required String phrase}) async {
     emit(ReposState.loading(repos: state.repos));
 
     if (phrase.isEmpty) {
-      emit(const ReposState.loaded());
+      emit(const ReposState.initial());
 
       return;
     }
