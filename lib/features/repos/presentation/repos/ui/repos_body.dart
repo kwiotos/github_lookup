@@ -35,17 +35,16 @@ class _ReposBodyState extends State<ReposBody> {
   }
 
   @override
-  Widget build(BuildContext context) => Flexible(
-        child: ListView.builder(
-          controller: _scrollController,
-          padding: const EdgeInsets.only(top: 10),
-          itemCount: widget.repos.items.length,
-          itemBuilder: (context, index) => index == 0
-              ? _buildFirstItem(context, widget.repos.items[index])
-              : index == widget.repos.items.length - 1
-                  ? _buildLastItem(context, widget.repos.items[index])
-                  : _buildItem(context, widget.repos.items[index]),
-        ),
+  Widget build(BuildContext context) => ListView.separated(
+        controller: _scrollController,
+        padding: const EdgeInsets.only(top: 10),
+        itemCount: widget.repos.items.length,
+        itemBuilder: (context, index) => index == 0
+            ? _buildFirstItem(context, widget.repos.items[index])
+            : index == widget.repos.items.length - 1
+                ? _buildLastItem(context, widget.repos.items[index])
+                : _buildItem(context, widget.repos.items[index]),
+        separatorBuilder: (context, index) => const SizedBox(height: 10),
       );
 
   Widget _buildFirstItem(BuildContext context, RepoListItemModel repo) =>
@@ -65,62 +64,61 @@ class _ReposBodyState extends State<ReposBody> {
         ],
       );
 
-  Widget _buildLastItem(BuildContext context, RepoListItemModel repo) => Stack(
-        alignment: Alignment.bottomCenter,
+  Widget _buildLastItem(BuildContext context, RepoListItemModel repo) => Column(
         children: [
           _buildItem(context, repo),
-          if (widget.isLoadingMore)
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 5),
-              child: CircularProgressIndicator(),
-            ),
+          SizedBox(
+            height: 30,
+            child: widget.isLoadingMore
+                ? const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 5),
+                    child: FittedBox(child: CircularProgressIndicator()),
+                  )
+                : const SizedBox.shrink(),
+          ),
         ],
       );
 
-  Widget _buildItem(BuildContext context, RepoListItemModel repo) => Padding(
-        padding: const EdgeInsets.only(bottom: 10),
-        child: InkWell(
-          onTap: () =>
-              RepoDetailsRoute(repo.owner.login, repo.name).go(context),
-          borderRadius: BorderRadius.circular(10),
-          child: Ink(
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.blueGrey),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    if (repo.owner.avatarUrl != null) ...[
-                      SizedBox(
-                        width: 20,
-                        child: Image.network(repo.owner.avatarUrl!),
-                      ),
-                      const SizedBox(width: 10),
-                    ],
-                    Flexible(
-                      child: Text(
-                        repo.fullName,
-                        style: Theme.of(context).textTheme.titleSmall,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
+  Widget _buildItem(BuildContext context, RepoListItemModel repo) => InkWell(
+        onTap: () => RepoDetailsRoute(repo.owner.login, repo.name).go(context),
+        borderRadius: BorderRadius.circular(10),
+        child: Ink(
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.blueGrey),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  if (repo.owner.avatarUrl != null) ...[
+                    SizedBox(
+                      width: 20,
+                      child: Image.network(repo.owner.avatarUrl!),
                     ),
+                    const SizedBox(width: 10),
                   ],
-                ),
-                if (repo.description != null) ...[
-                  const SizedBox(height: 10),
-                  Text(
-                    repo.description!,
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
+                  Flexible(
+                    child: Text(
+                      repo.fullName,
+                      style: Theme.of(context).textTheme.titleSmall,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
                 ],
+              ),
+              if (repo.description != null) ...[
+                const SizedBox(height: 10),
+                Text(
+                  repo.description!,
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ],
-            ),
+            ],
           ),
         ),
       );

@@ -65,6 +65,7 @@ class ReposCubit extends Cubit<ReposState> {
         ),
       );
     } on Exception {
+      pageNumber--;
       emit(ReposState.error(repos: state.repos));
     }
   }
