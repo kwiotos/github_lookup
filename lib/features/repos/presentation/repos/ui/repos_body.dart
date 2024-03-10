@@ -1,53 +1,83 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../translations/translations.gl.dart';
 import '../../../domain/models/repo_list_item_model.dart';
 import '../../../domain/models/repos_list_model.dart';
 import '../../repo_details/route/repo_details_route.dart';
+import '../cubit/repos_cubit.dart';
 import '../route/repos_route.dart';
 
-class ReposBody extends StatelessWidget {
+class ReposBody extends StatefulWidget {
   final ReposListModel repos;
   final bool isLoadingMore;
 
   const ReposBody(this.repos, {this.isLoadingMore = false, super.key});
 
   @override
-  Widget build(BuildContext context) => Column(
+  State<ReposBody> createState() => _ReposBodyState();
+}
+
+class _ReposBodyState extends State<ReposBody> {
+  late final ScrollController _scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+    _scrollController.addListener(() {
+      if (_scrollController.position.atEdge &&
+          _scrollController.position.pixels > 0) {
+        BlocProvider.of<ReposCubit>(context).getMoreRepos();
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) => Flexible(
+        child: ListView.builder(
+          controller: _scrollController,
+          padding: const EdgeInsets.only(top: 10),
+          itemCount: widget.repos.items.length,
+          itemBuilder: (context, index) => index == 0
+              ? _buildFirstItem(context, widget.repos.items[index])
+              : index == widget.repos.items.length - 1
+                  ? _buildLastItem(context, widget.repos.items[index])
+                  : _buildItem(context, widget.repos.items[index]),
+        ),
+      );
+
+  Widget _buildFirstItem(BuildContext context, RepoListItemModel repo) =>
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Flexible(
-            child: ListView.builder(
-              padding: const EdgeInsets.only(top: 10),
-              itemCount: repos.items.length,
-              itemBuilder: (context, index) => index == 0
-                  ? Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          plural(
-                            LocaleKeys.repos_results_count,
-                            repos.totalCount,
-                            args: ['${repos.totalCount}'],
-                          ),
-                          style: Theme.of(context).textTheme.titleSmall,
-                        ),
-                        const SizedBox(height: 10),
-                        _buildRepoItem(context, repos.items[index]),
-                      ],
-                    )
-                  : _buildRepoItem(context, repos.items[index]),
+          Text(
+            plural(
+              LocaleKeys.repos_results_count,
+              widget.repos.totalCount,
+              args: ['${widget.repos.totalCount}'],
             ),
+            style: Theme.of(context).textTheme.titleSmall,
           ),
-          if (isLoadingMore) ...[
-            const SizedBox(height: 10),
-            const CircularProgressIndicator(),
-          ],
+          const SizedBox(height: 10),
+          _buildItem(context, repo),
         ],
       );
 
-  Widget _buildRepoItem(BuildContext context, RepoListItemModel repo) =>
-      Padding(
+  Widget _buildLastItem(BuildContext context, RepoListItemModel repo) => Stack(
+        alignment: Alignment.bottomCenter,
+        children: [
+          _buildItem(context, repo),
+          if (widget.isLoadingMore)
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 5),
+              child: CircularProgressIndicator(),
+            ),
+        ],
+      );
+
+  Widget _buildItem(BuildContext context, RepoListItemModel repo) => Padding(
         padding: const EdgeInsets.only(bottom: 10),
         child: InkWell(
           onTap: () =>

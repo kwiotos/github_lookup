@@ -13,8 +13,12 @@ class ReposRepositoryImpl extends ReposRepository {
   ReposRepositoryImpl(this._reposApi);
 
   @override
-  Future<ReposListModel> getRepos({required String phrase}) async {
-    final result = await _reposApi.getRepos(phrase);
+  Future<ReposListModel> getRepos({
+    required String phrase,
+    required int pageSize,
+    required int pageNumber,
+  }) async {
+    final result = await _reposApi.getRepos(phrase, pageSize, pageNumber);
 
     return result.toModel();
   }

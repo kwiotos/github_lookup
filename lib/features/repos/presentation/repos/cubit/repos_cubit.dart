@@ -9,13 +9,21 @@ part 'repos_cubit.freezed.dart';
 
 part 'repos_state.dart';
 
+const _pageSize = 20;
+
 @injectable
 class ReposCubit extends Cubit<ReposState> {
   final GetReposUseCase _getReposUseCase;
 
   ReposCubit(this._getReposUseCase) : super(const ReposState.initial());
 
+  String currentPhrase = '';
+  int pageNumber = 1;
+
   Future<void> getRepos({required String phrase}) async {
+    pageNumber = 1;
+    currentPhrase = phrase;
+
     emit(ReposState.loading(repos: state.repos));
 
     if (phrase.isEmpty) {
@@ -25,9 +33,37 @@ class ReposCubit extends Cubit<ReposState> {
     }
 
     try {
-      final repos = await _getReposUseCase(phrase: phrase);
+      final repos = await _getReposUseCase(
+        phrase: phrase,
+        pageSize: _pageSize,
+        pageNumber: pageNumber,
+      );
 
       emit(ReposState.loaded(repos: repos));
+    } on Exception {
+      emit(ReposState.error(repos: state.repos));
+    }
+  }
+
+  Future<void> getMoreRepos() async {
+    pageNumber++;
+    emit(ReposState.loadingMore(repos: state.repos));
+
+    try {
+      final repos = await _getReposUseCase(
+        phrase: currentPhrase,
+        pageSize: _pageSize,
+        pageNumber: pageNumber,
+      );
+
+      emit(
+        ReposState.loaded(
+          repos: ReposListModel(
+            totalCount: repos.totalCount,
+            items: [...state.repos?.items ?? [], ...repos.items],
+          ),
+        ),
+      );
     } on Exception {
       emit(ReposState.error(repos: state.repos));
     }

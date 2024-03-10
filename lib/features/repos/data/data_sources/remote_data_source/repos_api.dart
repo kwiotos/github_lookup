@@ -19,7 +19,11 @@ abstract class ReposApi {
   }) = _ReposApi;
 
   @GET(searchReposEndpoint)
-  Future<GetReposResultDto> getRepos(@Query('q') String phrase);
+  Future<GetReposResultDto> getRepos(
+    @Query('q') String phrase,
+    @Query('per_page') int pageSize,
+    @Query('page') int pageNumber,
+  );
 
   @GET(getRepoEndpoint)
   Future<RepoDetailsDto> getRepo(

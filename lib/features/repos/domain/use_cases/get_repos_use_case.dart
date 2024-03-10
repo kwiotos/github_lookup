@@ -9,6 +9,14 @@ class GetReposUseCase {
 
   GetReposUseCase(this._repository);
 
-  Future<ReposListModel> call({required String phrase}) =>
-      _repository.getRepos(phrase: phrase);
+  Future<ReposListModel> call({
+    required String phrase,
+    required int pageSize,
+    required int pageNumber,
+  }) =>
+      _repository.getRepos(
+        phrase: phrase,
+        pageSize: pageSize,
+        pageNumber: pageNumber,
+      );
 }
