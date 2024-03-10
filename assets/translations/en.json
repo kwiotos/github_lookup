@@ -16,10 +16,31 @@
   },
   "repo_details": {
     "title": "{} details",
-    "show_pulls": "Show pull requests"
+    "show_pulls": "Show open pull requests",
+    "stars": {
+      "zero": "{} stars",
+      "one": "{} star",
+      "many": "{} stars",
+      "other": "{} stars"
+    },
+    "forks": {
+      "zero": "{} forks",
+      "one": "{} fork",
+      "many": "{} forks",
+      "other": "{} forks"
+    },
+    "subscribers": {
+      "zero": "{} subscribers",
+      "one": "{} subscriber",
+      "many": "{} subscribers",
+      "other": "{} subscribers"
+    },
+    "language": "Main language",
+    "maintained_by": "Maintained by",
+    "related_topics": "Related topics"
   },
   "repo_pulls": {
-    "title": "{} pull requests",
-    "empty": "No pull requests"
+    "title": "{} open PRs",
+    "empty": "No open pull requests"
   }
 }
