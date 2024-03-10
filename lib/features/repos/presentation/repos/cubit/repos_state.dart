@@ -6,6 +6,8 @@ class ReposState with _$ReposState {
 
   const factory ReposState.loading({ReposListModel? repos}) = ReposLoading;
 
+  const factory ReposState.loadingMore({ReposListModel? repos}) = ReposLoadingMore;
+
   const factory ReposState.loaded({required ReposListModel repos}) =
       ReposLoaded;
 

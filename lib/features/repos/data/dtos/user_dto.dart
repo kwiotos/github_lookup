@@ -12,7 +12,7 @@ class UserDto extends Equatable {
   @JsonKey(name: 'avatar_url')
   final String? avatarUrl;
 
-  const UserDto({required this.id, required this.login, this.avatarUrl});
+  const UserDto(this.id, this.login, this.avatarUrl);
 
   @override
   List<Object?> get props => [id, login, avatarUrl];

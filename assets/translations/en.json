@@ -3,9 +3,16 @@
     "error_message": "Sorry, something went wrong, try again later"
   },
   "repos": {
-    "title": "Repositories search",
+    "title": "Github repos search",
     "input_hint": "Search for repos",
-    "empty": "No repos found"
+    "empty": "No repos found",
+    "no_phrase_message": "Enter phrase to search for repos",
+    "results_count": {
+      "zero": "{} results",
+      "one": "{} result",
+      "many": "{} results",
+      "other": "{} results"
+    }
   },
   "repo_details": {
     "title": "{} details",

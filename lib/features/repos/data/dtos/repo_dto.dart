@@ -11,11 +11,20 @@ class RepoDto extends Equatable {
   final int id;
   final String name;
   final UserDto owner;
+  @JsonKey(name: 'full_name')
+  final String fullName;
+  final String? description;
 
-  const RepoDto(this.id, this.name, this.owner);
+  const RepoDto(
+    this.id,
+    this.name,
+    this.owner,
+    this.fullName,
+    this.description,
+  );
 
   @override
-  List<Object?> get props => [id, name, owner];
+  List<Object?> get props => [id, name, owner, fullName, description];
 
   factory RepoDto.fromJson(Map<String, dynamic> json) =>
       _$RepoDtoFromJson(json);
@@ -24,5 +33,7 @@ class RepoDto extends Equatable {
         id: id,
         name: name,
         owner: owner.toModel(),
+        fullName: fullName,
+        description: description,
       );
 }
