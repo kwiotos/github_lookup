@@ -43,6 +43,8 @@ dev_dependencies:
   flutter_lints: ^3.0.1
   go_router_builder: ^2.4.1
   build_runner: ^2.4.8
+  bloc_test: ^9.1.6
+  mocktail: ^1.0.3
 
 flutter:
   uses-material-design: true

@@ -24,8 +24,7 @@ class ReposPage extends StatelessWidget {
         ),
         body: Center(
           child: BlocProvider(
-            create: (context) =>
-                getIt<ReposCubit>()..getRepos(phrase: 'flutter'),
+            create: (context) => getIt<ReposCubit>(),
             child: Builder(
               builder: (context) => Column(
                 children: [
