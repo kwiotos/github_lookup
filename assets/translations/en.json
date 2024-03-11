@@ -41,6 +41,7 @@
   },
   "repo_pulls": {
     "title": "{} open PRs",
-    "empty": "No open pull requests"
+    "empty": "No open pull requests",
+    "created_at": "Created at"
   }
 }
