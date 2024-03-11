@@ -37,8 +37,15 @@ class ReposRepositoryImpl extends ReposRepository {
   Future<List<PullModel>> getRepoPulls({
     required String owner,
     required String repo,
+    required int pageSize,
+    required int pageNumber,
   }) async {
-    final result = await _reposApi.getRepoPulls(owner, repo);
+    final result = await _reposApi.getRepoPulls(
+      owner,
+      repo,
+      pageSize,
+      pageNumber,
+    );
 
     return result.map((e) => e.toModel()).toList();
   }

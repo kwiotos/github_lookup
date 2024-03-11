@@ -2,6 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../core/utils/focus_utils.dart';
+import '../../../../../core/widgets/list_page_loading_indicator.dart';
 import '../../../../../translations/translations.gl.dart';
 import '../../../domain/models/repo_list_item_model.dart';
 import '../../../domain/models/repos_list_model.dart';
@@ -21,17 +23,27 @@ class ReposBody extends StatefulWidget {
 
 class _ReposBodyState extends State<ReposBody> {
   late final ScrollController _scrollController;
+  late final Function() _loadMoreControllerListener;
 
   @override
   void initState() {
     super.initState();
-    _scrollController = ScrollController();
-    _scrollController.addListener(() {
+    _loadMoreControllerListener = () {
       if (_scrollController.position.atEdge &&
           _scrollController.position.pixels > 0) {
         BlocProvider.of<ReposCubit>(context).getMoreRepos();
       }
-    });
+    };
+    _scrollController = ScrollController()
+      ..addListener(_loadMoreControllerListener);
+  }
+
+  @override
+  void dispose() {
+    _scrollController
+      ..removeListener(_loadMoreControllerListener)
+      ..dispose();
+    super.dispose();
   }
 
   @override
@@ -67,20 +79,15 @@ class _ReposBodyState extends State<ReposBody> {
   Widget _buildLastItem(BuildContext context, RepoListItemModel repo) => Column(
         children: [
           _buildItem(context, repo),
-          SizedBox(
-            height: 30,
-            child: widget.isLoadingMore
-                ? const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 5),
-                    child: FittedBox(child: CircularProgressIndicator()),
-                  )
-                : const SizedBox.shrink(),
-          ),
+          ListPageLoadingIndicator(isLoading: widget.isLoadingMore),
         ],
       );
 
   Widget _buildItem(BuildContext context, RepoListItemModel repo) => InkWell(
-        onTap: () => RepoDetailsRoute(repo.owner.login, repo.name).go(context),
+        onTap: () {
+          FocusUtils.hideKeyboard(context);
+          RepoDetailsRoute(repo.owner.login, repo.name).go(context);
+        },
         borderRadius: BorderRadius.circular(10),
         child: Ink(
           decoration: BoxDecoration(

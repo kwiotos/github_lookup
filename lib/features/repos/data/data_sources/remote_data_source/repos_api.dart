@@ -35,5 +35,7 @@ abstract class ReposApi {
   Future<List<PullDto>> getRepoPulls(
     @Path('owner') String owner,
     @Path('repo') String repo,
+    @Query('per_page') int pageSize,
+    @Query('page') int pageNumber,
   );
 }

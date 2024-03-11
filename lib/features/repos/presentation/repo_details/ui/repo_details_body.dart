@@ -110,10 +110,10 @@ class RepoDetailsBody extends StatelessWidget {
                     ),
                   ],
                   const SizedBox(height: 10),
-                  InkWell(
-                    onTap: () =>
-                        RepoPullsRoute(repo.owner.login, repo.name).go(context),
-                    child: Center(
+                  Center(
+                    child: InkWell(
+                      onTap: () =>
+                          RepoPullsRoute(repo.owner.login, repo.name).go(context),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [

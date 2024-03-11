@@ -9,6 +9,8 @@ part 'repo_pulls_cubit.freezed.dart';
 
 part 'repo_pulls_state.dart';
 
+const _pageSize = 20;
+
 @injectable
 class RepoPullsCubit extends Cubit<RepoPullsState> {
   final String owner;
@@ -21,14 +23,41 @@ class RepoPullsCubit extends Cubit<RepoPullsState> {
     this._getRepoPullsUseCase,
   ) : super(const RepoPullsState.loading());
 
-  Future<void> getRepo() async {
-    emit(const RepoPullsState.loading());
+  int pageNumber = 1;
+
+  Future<void> getPulls() async {
+    pageNumber = 1;
+    emit(RepoPullsState.loading(pulls: state.pulls));
     try {
-      final pulls = await _getRepoPullsUseCase(owner: owner, repo: repoName);
+      final pulls = await _getRepoPullsUseCase(
+        owner: owner,
+        repo: repoName,
+        pageSize: _pageSize,
+        pageNumber: pageNumber,
+      );
 
       emit(RepoPullsState.loaded(pulls: pulls));
     } on Exception {
       emit(const RepoPullsState.error());
+    }
+  }
+
+  Future<void> getMorePulls() async {
+    pageNumber++;
+    emit(RepoPullsState.loadingMore(pulls: state.pulls));
+
+    try {
+      final pulls = await _getRepoPullsUseCase(
+        owner: owner,
+        repo: repoName,
+        pageSize: _pageSize,
+        pageNumber: pageNumber,
+      );
+
+      emit(RepoPullsState.loaded(pulls: [...state.pulls, ...pulls]));
+    } on Exception {
+      pageNumber--;
+      emit(RepoPullsState.error(pulls: state.pulls));
     }
   }
 }

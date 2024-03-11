@@ -17,5 +17,7 @@ abstract class ReposRepository {
   Future<List<PullModel>> getRepoPulls({
     required String owner,
     required String repo,
+    required int pageSize,
+    required int pageNumber,
   });
 }

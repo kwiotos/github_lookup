@@ -1,21 +1,65 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../core/widgets/list_page_loading_indicator.dart';
 import '../../../../../translations/translations.gl.dart';
 import '../../../domain/models/pull_model.dart';
+import '../cubit/repo_pulls_cubit.dart';
 
-class RepoPullsBody extends StatelessWidget {
+class RepoPullsBody extends StatefulWidget {
   final List<PullModel> pulls;
+  final bool isLoadingMore;
 
-  const RepoPullsBody(this.pulls, {super.key});
+  const RepoPullsBody(this.pulls, {this.isLoadingMore = false, super.key});
 
   @override
-  Widget build(BuildContext context) => pulls.isNotEmpty
-      ? ListView.separated(
-          padding: const EdgeInsets.only(top: 10),
-          itemCount: pulls.length,
-          itemBuilder: (context, index) => _buildItem(context, pulls[index]),
-          separatorBuilder: (context, index) => const SizedBox(height: 10),
+  State<RepoPullsBody> createState() => _RepoPullsBodyState();
+}
+
+class _RepoPullsBodyState extends State<RepoPullsBody> {
+  late final ScrollController _scrollController;
+  late final Function() _loadMoreControllerListener;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadMoreControllerListener = () {
+      if (_scrollController.position.atEdge &&
+          _scrollController.position.pixels > 0) {
+        BlocProvider.of<RepoPullsCubit>(context).getMorePulls();
+      }
+    };
+    _scrollController = ScrollController()
+      ..addListener(_loadMoreControllerListener);
+  }
+
+  @override
+  void dispose() {
+    _scrollController
+      ..removeListener(_loadMoreControllerListener)
+      ..dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) => widget.pulls.isNotEmpty
+      ? RefreshIndicator(
+          onRefresh: () => BlocProvider.of<RepoPullsCubit>(context).getPulls(),
+          child: ListView.separated(
+            controller: _scrollController,
+            padding: const EdgeInsets.only(top: 10),
+            itemCount: widget.pulls.length,
+            itemBuilder: (context, index) => index == widget.pulls.length - 1
+                ? Column(
+                    children: [
+                      _buildItem(context, widget.pulls[index]),
+                      ListPageLoadingIndicator(isLoading: widget.isLoadingMore),
+                    ],
+                  )
+                : _buildItem(context, widget.pulls[index]),
+            separatorBuilder: (context, index) => const SizedBox(height: 10),
+          ),
         )
       : Text(LocaleKeys.repo_pulls_empty.tr());
 

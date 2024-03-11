@@ -22,15 +22,21 @@ class RepoPullsPage extends StatelessWidget {
         body: Center(
           child: BlocProvider(
             create: (context) =>
-                getIt<RepoPullsCubit>(param1: owner, param2: repo)..getRepo(),
+                getIt<RepoPullsCubit>(param1: owner, param2: repo)..getPulls(),
             child: BlocBuilder<RepoPullsCubit, RepoPullsState>(
               builder: (context, state) => Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Center(
                   child: state.when(
-                    loading: () => const CircularProgressIndicator(),
+                    loading: (pulls) => pulls.isNotEmpty
+                        ? RepoPullsBody(pulls)
+                        : const CircularProgressIndicator(),
+                    loadingMore: (pulls) =>
+                        RepoPullsBody(pulls, isLoadingMore: true),
                     loaded: RepoPullsBody.new,
-                    error: () => Text(LocaleKeys.base_error_message.tr()),
+                    error: (pulls) => pulls.isNotEmpty
+                        ? RepoPullsBody(pulls)
+                        : Text(LocaleKeys.base_error_message.tr()),
                   ),
                 ),
               ),

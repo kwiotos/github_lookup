@@ -12,6 +12,13 @@ class GetRepoPullsUseCase {
   Future<List<PullModel>> call({
     required String owner,
     required String repo,
+    required int pageSize,
+    required int pageNumber,
   }) =>
-      _repository.getRepoPulls(owner: owner, repo: repo);
+      _repository.getRepoPulls(
+        owner: owner,
+        repo: repo,
+        pageSize: pageSize,
+        pageNumber: pageNumber,
+      );
 }
