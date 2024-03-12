@@ -4,6 +4,10 @@ Flutter application that allows to look for Github public repositories.
 It lists repos searched based on entered keyword, presents
 basic info about a repo and presents list of open pull requests for a repo.
 
+Note: If you get an error on search it may be caused by Github rate limit for
+that endpoint which is 10 requests per minute for unauthenticated user, then you
+have to wait for about a minute to be able to get the responses again.
+
 ## Getting Started
 
 To run the application on a device first run the following commands
