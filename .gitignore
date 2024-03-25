@@ -60,7 +60,6 @@ ios/Runner/Info_BACKUP_2594.plist
 ios/Runner/Info_BASE_2594.plist
 ios/Runner/Info_LOCAL_2594.plist
 ios/Runner/Info_REMOTE_2594.plist
-ios/Runner.xcodeproj/project.pbxproj
 ios/fastlane/report.xml
 
 # Config for dart-define
