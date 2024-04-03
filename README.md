@@ -16,6 +16,5 @@ sure to have the same flutter version installed as in the fvm_config.json file):
 
 - (fvm) flutter pub get
 - (fvm) dart run build_runner build --delete-conflicting-outputs
-- (fvm) dart run easy_localization:generate -S "assets/translations" -O "
-  lib/translations" -f keys -o translations.gl.dart
+- (fvm) dart run easy_localization:generate -S "assets/translations" -O "lib/translations" -f keys -o translations.gl.dart
 - (fvm) flutter run
